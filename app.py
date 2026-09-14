@@ -17,11 +17,11 @@ if 'screen' not in st.session_state:
 # -------------------------------------------------------------------------
 if st.session_state.screen == 'welcome':
     
-    # Center Logo
-    col_l1, col_l2, col_l3 = st.columns([1, 1.2, 1])
+    # Center Logo perfectly using balanced columns
+    col_l1, col_l2, col_l3 = st.columns([1.5, 1, 1.5])
     with col_l2:
         try:
-            st.image('dialog_logo.png', width=250)
+            st.image('dialog_logo.png', width=220)
         except:
             st.markdown("<h2 style='text-align: center; color: #E60000;'>Dialog Axiata PLC</h2>", unsafe_allow_html=True)
 
