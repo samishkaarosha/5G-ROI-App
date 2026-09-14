@@ -13,24 +13,17 @@ if 'screen' not in st.session_state:
     st.session_state.screen = 'welcome'
 
 # -------------------------------------------------------------------------
-# Screen 1: Welcome / Launch Screen (Centered Logo & UI)
+# Screen 1: Welcome / Launch Screen (Attractive UI & Dual Buttons)
 # -------------------------------------------------------------------------
 if st.session_state.screen == 'welcome':
     
-    # Center Logo using HTML markdown for absolute perfection
-    st.markdown("""
-        <div style='text-align: center; padding-top: 20px;'>
-            <img src='app/static/dialog_logo.png' width='250' style='display: block; margin: 0 auto;'>
-        </div>
-    """, unsafe_allow_html=True)
-    
-    # Fallback if standard image method is preferred with columns balanced properly
-    col_l1, col_l2, col_l3 = st.columns([1, 0.8, 1])
+    # Center Logo
+    col_l1, col_l2, col_l3 = st.columns([1, 1.2, 1])
     with col_l2:
         try:
-            st.image('dialog_logo.png', width=240)
+            st.image('dialog_logo.png', width=250)
         except:
-            pass
+            st.markdown("<h2 style='text-align: center; color: #E60000;'>Dialog Axiata PLC</h2>", unsafe_allow_html=True)
 
     st.markdown("""
         <div style='text-align: center; padding: 10px 0px 20px 0px;'>
@@ -38,6 +31,34 @@ if st.session_state.screen == 'welcome':
             <p style='color: #b0b0b0; font-size: 1.1em;'>Select a target district or choose an advanced tool below to begin your analysis.</p>
         </div>
     """, unsafe_allow_html=True)
+
+    # Main Selection Box inside an attractive container
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        with st.container(border=True):
+            st.markdown("### 🎯 District Quick Insight")
+            district_list = sorted(data['District'].unique().tolist())
+            selected_district = st.selectbox("Select Target District for 5G Deployment:", district_list)
+            
+            st.markdown("<br>", unsafe_allow_html=True)
+            if st.button("Generate District Analytics 🚀", use_container_width=True):
+                st.session_state.selected_district = selected_district
+                st.session_state.screen = 'analytics'
+                st.rerun()
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    # Two Separate Buttons at the bottom for direct access
+    st.markdown("<h4 style='text-align: center; color: #ffffff;'>Or Access Advanced Tools</h4>", unsafe_allow_html=True)
+    bcol1, bcol2 = st.columns(2)
+    with bcol1:
+        if st.button("🏆 Open Full District Leaderboard", use_container_width=True):
+            st.session_state.screen = 'leaderboard'
+            st.rerun()
+    with bcol2:
+        if st.button("🧮 Open Custom ROI Calculator", use_container_width=True):
+            st.session_state.screen = 'calculator'
+            st.rerun()
 
 # -------------------------------------------------------------------------
 # Screen 2: District-Specific Quick Analytics View
